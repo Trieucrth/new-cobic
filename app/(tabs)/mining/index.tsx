@@ -282,8 +282,8 @@ export default function MiningScreen() {
       ) : (
         <>
           <View style={[styles.header, { backgroundColor: Colors[colorScheme ?? 'light'].tint }]}>
-            <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.headerTitle}>Mining</ThemedText>
-            <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.headerSubtitle}>Kiếm tiền điện tử</ThemedText>
+            <ThemedText style={styles.headerTitle}>Mining</ThemedText>
+            <ThemedText style={styles.headerSubtitle}>Kiếm tiền điện tử</ThemedText>
           </View>
 
           <ScrollView 
@@ -292,18 +292,18 @@ export default function MiningScreen() {
           >
             {miningStatus ? (
               <>
-                <ThemedView style={styles.statusCard}>
+                <ThemedView style={[styles.statusCard, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                   <View style={styles.statusHeader}>
                     <Ionicons 
                       name={miningStatus.canMine ? "flash" : "time"} 
                       size={24} 
                       color={miningStatus.canMine ? "#4CAF50" : "#FF9800"} 
                     />
-                    <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.statusTitle}>
+                    <ThemedText style={styles.statusTitle}>
                       Trạng thái Mining
                     </ThemedText>
                   </View>
-                  <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={[
+                  <ThemedText style={[
                     styles.statusText,
                     { color: miningStatus.canMine ? "#4CAF50" : "#FF9800" }
                   ]}>
@@ -311,62 +311,62 @@ export default function MiningScreen() {
                   </ThemedText>
                 </ThemedView>
 
-                <ThemedView style={styles.infoCard}>
+                <ThemedView style={[styles.infoCard, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                   <View style={styles.infoHeader}>
                     <Ionicons name="speedometer" size={24} color={Colors[colorScheme ?? 'light'].tint} />
-                    <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoTitle}>Thông tin Mining</ThemedText>
+                    <ThemedText style={[styles.infoTitle, {color: Colors[colorScheme ?? 'light'].text}]}>Thông tin Mining</ThemedText>
                   </View>
                   <View style={styles.infoContent}>
                     <View style={styles.infoRow}>
                       <View style={styles.infoLabel}>
-                        <Ionicons name="rocket" size={16} style={styles.icon} />
-                        <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoLabelText}>Tốc độ mining</ThemedText>
+                        <Ionicons name="rocket" size={16} style={[styles.icon, {color: Colors[colorScheme ?? 'light'].text}]} />
+                        <ThemedText style={[styles.infoLabelText,{color: Colors[colorScheme ?? 'light'].text}]}>Tốc độ mining</ThemedText>
                       </View>
-                      <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoValue}>{miningStatus.miningRate}</ThemedText>
+                      <ThemedText style={styles.infoValue}>{miningStatus.miningRate}</ThemedText>
                     </View>
                     <View style={styles.infoRow}>
                       <View style={styles.infoLabel}>
-                        <Ionicons name="analytics" size={16} style={styles.icon} />
-                        <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoLabelText}>Tốc độ cơ bản</ThemedText>
+                        <Ionicons name="analytics" size={16} style={[styles.icon, {color: Colors[colorScheme ?? 'light'].text}]} />
+                        <ThemedText style={[styles.infoLabelText,{color: Colors[colorScheme ?? 'light'].text}]}>Tốc độ cơ bản</ThemedText>
                       </View>
-                      <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoValue}>{miningStatus.baseMiningRate}</ThemedText>
+                      <ThemedText style={styles.infoValue}>{miningStatus.baseMiningRate}</ThemedText>
                     </View>
                     <View style={styles.infoRow}>
                       <View style={styles.infoLabel}>
-                        <Ionicons name="person" size={16} style={styles.icon} />
-                        <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoLabelText}>Tốc độ của bạn</ThemedText>
+                        <Ionicons name="person" size={16} style={[styles.icon, {color: Colors[colorScheme ?? 'light'].text}]} />
+                        <ThemedText style={[styles.infoLabelText,{color: Colors[colorScheme ?? 'light'].text}]}>Tốc độ của bạn</ThemedText>
                       </View>
-                      <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoValue}>{miningStatus.userMiningRate}</ThemedText>
+                      <ThemedText style={styles.infoValue}>{miningStatus.userMiningRate}</ThemedText>
                     </View>
                   </View>
                 </ThemedView>
 
-                <ThemedView style={styles.timeCard}>
+                <ThemedView style={[styles.timeCard, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                   <View style={styles.timeHeader}>
                     <Ionicons name="time" size={24} color={Colors[colorScheme ?? 'light'].tint} />
-                    <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeTitle}>Thời gian</ThemedText>
+                    <ThemedText style={styles.timeTitle}>Thời gian</ThemedText>
                   </View>
                   <View style={styles.timeContent}>
                     <View style={styles.timeRow}>
                       <View style={styles.timeLabel}>
-                        <Ionicons name="calendar" size={16} style={styles.icon} />
-                        <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeLabelText}>Lần mining cuối</ThemedText>
+                        <Ionicons name="calendar" size={16} style={[styles.icon, {color: Colors[colorScheme ?? 'light'].text}]} />
+                        <ThemedText style={styles.timeLabelText}>Lần mining cuối</ThemedText>
                       </View>
-                      <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeValue}>{formatTime(miningStatus.lastMiningTime)}</ThemedText>
+                      <ThemedText style={styles.timeValue}>{formatTime(miningStatus.lastMiningTime)}</ThemedText>
                     </View>
                     <View style={styles.timeRow}>
                       <View style={styles.timeLabel}>
-                        <Ionicons name="timer" size={16} style={styles.icon} />
-                        <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeLabelText}>Lần mining tiếp theo</ThemedText>
+                        <Ionicons name="timer" size={16} style={[styles.icon, {color: Colors[colorScheme ?? 'light'].text}]} />
+                        <ThemedText style={styles.timeLabelText}>Lần mining tiếp theo</ThemedText>
                       </View>
-                      <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeValue}>{timeLeft || formatTime(miningStatus.nextMiningTime)}</ThemedText>
+                      <ThemedText style={styles.timeValue}>{timeLeft || formatTime(miningStatus.nextMiningTime)}</ThemedText>
                     </View>
                     <View style={styles.timeRow}>
                       <View style={styles.timeLabel}>
-                        <Ionicons name="hourglass" size={16} style={styles.icon} />
-                        <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeLabelText}>Thời gian chờ</ThemedText>
+                        <Ionicons name="hourglass" size={16} style={[styles.icon, {color: Colors[colorScheme ?? 'light'].text}]} />
+                        <ThemedText style={styles.timeLabelText}>Thời gian chờ</ThemedText>
                       </View>
-                      <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeValue}>{miningStatus.cooldownHours} giờ</ThemedText>
+                      <ThemedText style={styles.timeValue}>{miningStatus.cooldownHours} giờ</ThemedText>
                     </View>
                   </View>
                 </ThemedView>
@@ -393,7 +393,7 @@ export default function MiningScreen() {
                       color="#fff" 
                       style={styles.mineButtonIcon}
                     />
-                    <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.mineButtonText}>
+                    <ThemedText style={styles.mineButtonText}>
                       {miningStatus.canMine ? 'Bắt đầu Mining' : 'Đang trong thời gian chờ'}
                     </ThemedText>
                   </View>
@@ -418,7 +418,7 @@ export default function MiningScreen() {
                       color="#fff" 
                       style={styles.checkInButtonIcon}
                     />
-                    <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.checkInButtonText}>
+                    <ThemedText style={styles.checkInButtonText}>
                       {loading ? 'Đang xử lý...' : timeLeft ? `Còn ${timeLeft}` : 'Check-in hàng ngày'}
                     </ThemedText>
                   </View>
@@ -428,8 +428,8 @@ export default function MiningScreen() {
               </>
             ) : (
               <View style={styles.emptyContainer}>
-                <Ionicons name="alert-circle" size={48} style={styles.icon} />
-                <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.emptyText}>Không có dữ liệu</ThemedText>
+                <Ionicons name="alert-circle" size={48} style={[styles.icon, {color: Colors[colorScheme ?? 'light'].text}]} />
+                <ThemedText style={styles.emptyText}>Không có dữ liệu</ThemedText>
               </View>
             )}
           </ScrollView>
@@ -547,7 +547,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   infoCard: {
-    backgroundColor: '#fff',
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,

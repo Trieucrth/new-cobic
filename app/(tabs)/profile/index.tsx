@@ -256,10 +256,10 @@ export default function ProfileScreen() {
 
   if (loadingUser) {
     return (
-      <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color={Colors[colorScheme ?? 'dark'].background} />
+      <ThemedView style={styles.centerContainer}>
+        <ActivityIndicator size="large" color={Colors[colorScheme ?? 'light'].tint} />
         <ThemedText style={styles.loadingText}>Đang tải thông tin cá nhân...</ThemedText>
-      </View>
+      </ThemedView>
     );
   }
 
@@ -269,83 +269,83 @@ export default function ProfileScreen() {
       <ScrollView style={styles.scrollView}>
         <ThemedView style={styles.profileContent}>
           {/* Header nổi bật */}
-          <View style={styles.profileHeader}>
+          <View style={[styles.profileHeader, {backgroundColor: colorScheme === 'dark' ? '#4C0099' : '#fff',}]}>
             <View style={styles.avatarWrapper}>
               <IconSymbol name="person.circle.fill" size={90} color={Colors[colorScheme ?? 'light'].tint} />
             </View>
-            <ThemedText type="title" style={styles.profileUsername}>{userInfo?.username || user?.username}</ThemedText>
+            <ThemedText type="title" style={[styles.profileUsername, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>{userInfo?.username || user?.username}</ThemedText>
             <ThemedText style={styles.profileAccountType}>{userInfo?.isGuest ? 'Tài khoản khách' : 'Tài khoản chính thức'}</ThemedText>
           </View>
 
           {/* Card thông tin tài khoản */}
-          <ThemedView style={styles.infoCard}>
-            <ThemedText type="title" style={styles.sectionTitle}>Thông tin tài khoản</ThemedText>
+          <ThemedView style={[styles.infoCard, {backgroundColor: colorScheme === 'dark' ? '#4C0099' : '#fff',}]}>
+            <ThemedText type="title" style={[styles.sectionTitle, {color: colorScheme === 'dark' ? '#fff' : '#222'}]}>Thông tin tài khoản</ThemedText>
             <View style={styles.infoList}>
               <View style={styles.infoRow}>
-                <IconSymbol name="envelope.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
-                <ThemedText style={styles.infoLabel}>Email</ThemedText>
-                <ThemedText style={styles.infoValue}>{userInfo?.email || 'Chưa cập nhật'}</ThemedText>
+                <IconSymbol name="envelope.fill" size={18} color={colorScheme === 'dark' ? '#fff' : Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
+                <ThemedText style={[styles.infoLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Email</ThemedText>
+                <ThemedText style={[styles.infoValue, {color: colorScheme === 'dark' ? '#FFD700' : '#333'}]}>{userInfo?.email || 'Chưa cập nhật'}</ThemedText>
               </View>
               <View style={styles.infoRow}>
-                <IconSymbol name="creditcard.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
-                <ThemedText style={styles.infoLabel}>Số dư</ThemedText>
-                <ThemedText style={styles.infoValue}>{userInfo?.balance || '0'}</ThemedText>
+                <IconSymbol name="creditcard.fill" size={18} color={colorScheme === 'dark' ? '#fff' : Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
+                <ThemedText style={[styles.infoLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Số dư</ThemedText>
+                <ThemedText style={[styles.infoValue, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>{userInfo?.balance || '0'}</ThemedText>
               </View>
               <View style={styles.infoRow}>
-                <IconSymbol name="lock.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
-                <ThemedText style={styles.infoLabel}>Số dư không thể chuyển</ThemedText>
-                <ThemedText style={styles.infoValue}>{userInfo?.nonTransferableBalance || '0'}</ThemedText>
+                <IconSymbol name="lock.fill" size={18} color={colorScheme === 'dark' ? '#fff' : Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
+                <ThemedText style={[styles.infoLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Số dư không thể chuyển</ThemedText>
+                <ThemedText style={[styles.infoValue, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>{userInfo?.nonTransferableBalance || '0'}</ThemedText>
               </View>
               <View style={styles.infoRow}>
-                <IconSymbol name="bolt.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
-                <ThemedText style={styles.infoLabel}>Tốc độ đào</ThemedText>
-                <ThemedText style={styles.infoValue}>{userInfo?.miningRate || '0'}/phút</ThemedText>
+                <IconSymbol name="bolt.fill" size={18} color={colorScheme === 'dark' ? '#fff' : Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
+                <ThemedText style={[styles.infoLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Tốc độ đào</ThemedText>
+                <ThemedText style={[styles.infoValue, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>{userInfo?.miningRate || '0'}/phút</ThemedText>
               </View>
               <View style={styles.infoRow}>
-                <IconSymbol name="person.crop.circle.badge.plus" size={18} color={Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
-                <ThemedText style={styles.infoLabel}>Mã giới thiệu</ThemedText>
-                <ThemedText style={styles.infoValue}>{userInfo?.referralCode || 'Chưa có'}</ThemedText>
+                <IconSymbol name="person.crop.circle.badge.plus" size={18} color={colorScheme === 'dark' ? '#fff' : Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
+                <ThemedText style={[styles.infoLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Mã giới thiệu</ThemedText>
+                <ThemedText style={[styles.infoValue, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>{userInfo?.referralCode || 'Chưa có'}</ThemedText>
               </View>
               <View style={styles.infoRow}>
-                <IconSymbol name="person.2.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
-                <ThemedText style={styles.infoLabel}>Được giới thiệu bởi</ThemedText>
-                <ThemedText style={styles.infoValue}>{referralStats?.whoReferredMe?.[0]?.username || 'Không có'}</ThemedText>
+                <IconSymbol name="person.2.fill" size={18} color={colorScheme === 'dark' ? '#fff' : Colors[colorScheme ?? 'light'].tint} style={styles.infoIcon} />
+                <ThemedText style={[styles.infoLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Được giới thiệu bởi</ThemedText>
+                <ThemedText style={[styles.infoValue, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>{referralStats?.whoReferredMe?.[0]?.username || 'Không có'}</ThemedText>
               </View>
               <View style={[styles.infoRow, { borderBottomWidth: 0 }]}> 
                 <IconSymbol name="checkmark.shield.fill" size={18} color={getKycStatusColor(userInfo?.kycStatus)} style={styles.infoIcon} />
-                <ThemedText style={styles.infoLabel}>Trạng thái xác thực</ThemedText>
+                <ThemedText style={[styles.infoLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Trạng thái xác thực</ThemedText>
                 <ThemedText style={[styles.infoValue, { color: getKycStatusColor(userInfo?.kycStatus) }]}>{getKycStatusText(userInfo?.kycStatus)}</ThemedText>
               </View>
             </View>
           </ThemedView>
 
           {/* Card hành động/cài đặt */}
-          <ThemedView style={styles.actionCard}>
-            <ThemedText type="title" style={styles.sectionTitle}>Cài đặt & Hành động</ThemedText>
+          <ThemedView style={[styles.actionCard,{backgroundColor: colorScheme === 'dark' ? '#4C0099' : '#fff',}]}>
+            <ThemedText type="title" style={[styles.sectionTitle, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Cài đặt & Hành động</ThemedText>
             <View style={styles.actionGrid}>
-              <TouchableOpacity style={styles.actionItem} onPress={() => router.push('/(tabs)/profile/change-password')}>
+              <TouchableOpacity style={[styles.actionItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#F7F7F7'}]} onPress={() => router.push('/(tabs)/profile/change-password')}>
                 <IconSymbol name="lock.rectangle.stack.fill" size={22} color={Colors[colorScheme ?? 'light'].tint} style={styles.actionIcon} />
-                <ThemedText style={styles.actionLabel}>Đổi mật khẩu</ThemedText>
+                <ThemedText style={[styles.actionLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Đổi mật khẩu</ThemedText>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.actionItem} onPress={() => router.push('/(tabs)/profile/username')}>
+              <TouchableOpacity style={[styles.actionItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#F7F7F7'}]} onPress={() => router.push('/(tabs)/profile/username')}>
                 <IconSymbol name="person.crop.circle.fill" size={22} color={Colors[colorScheme ?? 'light'].tint} style={styles.actionIcon} />
-                <ThemedText style={styles.actionLabel}>Đổi tên đăng nhập</ThemedText>
+                <ThemedText style={[styles.actionLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Đổi tên đăng nhập</ThemedText>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.actionItem} onPress={() => router.push('/(tabs)/profile/profile')}>
+              <TouchableOpacity style={[styles.actionItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#F7F7F7'}]} onPress={() => router.push('/(tabs)/profile/profile')}>
                 <IconSymbol name="person.text.rectangle.fill" size={22} color={Colors[colorScheme ?? 'light'].tint} style={styles.actionIcon} />
-                <ThemedText style={styles.actionLabel}>Cập nhật thông tin</ThemedText>
+                <ThemedText style={[styles.actionLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Cập nhật thông tin</ThemedText>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.actionItem} onPress={() => router.push('/profile/kyc')}>
+              <TouchableOpacity style={[styles.actionItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#F7F7F7'}]} onPress={() => router.push('/profile/kyc')}>
                 <IconSymbol name="person.badge.shield.checkmark.fill" size={22} color={Colors[colorScheme ?? 'light'].tint} style={styles.actionIcon} />
-                <ThemedText style={styles.actionLabel}>Xác thực KYC</ThemedText>
+                <ThemedText style={[styles.actionLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Xác thực KYC</ThemedText>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.actionItem} onPress={() => router.push('/profile/referral')}>
+              <TouchableOpacity style={[styles.actionItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#F7F7F7'}]} onPress={() => router.push('/profile/referral')}>
                 <IconSymbol name="gift.fill" size={22} color={Colors[colorScheme ?? 'light'].tint} style={styles.actionIcon} />
-                <ThemedText style={styles.actionLabel}>Nhập mã giới thiệu</ThemedText>
+                <ThemedText style={[styles.actionLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Nhập mã giới thiệu</ThemedText>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.actionItem} onPress={() => router.push('/profile/scan-history')}>
+              <TouchableOpacity style={[styles.actionItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#F7F7F7'}]} onPress={() => router.push('/profile/scan-history')}>
                 <IconSymbol name="doc.text.fill" size={22} color={Colors[colorScheme ?? 'light'].tint} style={styles.actionIcon} />
-                <ThemedText style={styles.actionLabel}>Lịch sử quét mã</ThemedText>
+                <ThemedText style={[styles.actionLabel, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Lịch sử quét mã</ThemedText>
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout} disabled={loading}>
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   actionCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     borderRadius: 16,
     padding: 16,
     marginBottom: 32,
@@ -452,7 +452,7 @@ const styles = StyleSheet.create({
   actionItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#600EBD',
     borderRadius: 10,
     padding: 14,
     marginBottom: 10,
@@ -460,7 +460,6 @@ const styles = StyleSheet.create({
   actionLabel: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
   },
   actionIcon: {
     marginRight: 12,
@@ -487,12 +486,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    
   },
   loadingText: {
     marginTop: 20,
     fontSize: 16,
     fontWeight: '600',
-    color:"#000"
   },
 }); 

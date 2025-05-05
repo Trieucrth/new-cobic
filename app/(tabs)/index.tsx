@@ -445,39 +445,39 @@ export default function HomeScreen() {
 
           {/* Card Thông tin cá nhân */}
           {isAuthenticated ? (
-            <ThemedView style={styles.profileCardPro}>
+            <ThemedView style={[styles.profileCardPro, {backgroundColor: colorScheme === 'dark' ? '#4C0099' : '#fff'}]}>
               <View style={styles.profileHeaderRow}>
-                <ThemedText type="title" style={[styles.sectionTitle, { color: "#000"}]} >Thông tin cá nhân</ThemedText>
+                <ThemedText type="title" style={[styles.sectionTitle, {color: colorScheme === 'dark' ? '#fff' : '#333'}]} >Thông tin cá nhân</ThemedText>
                 <TouchableOpacity onPress={handleLogout}>
                   <ThemedText style={[styles.logoutButton, { color: Colors.light.tint}]}>Đăng xuất</ThemedText>
                 </TouchableOpacity>
               </View>
               <View style={styles.profileInfoList}>
-                <View style={styles.profileInfoListItem}>
+                <View style={[styles.profileInfoListItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff',}]}>
                   <IconSymbol name="person.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} />
-                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color: "#000"},]}>Tên</ThemedText>
-                  <ThemedText style={styles.profileInfoValueList} numberOfLines={1} ellipsizeMode='tail'>{user?.username}</ThemedText>
+                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color:  colorScheme === 'dark' ? '#fff' : '#333'},]}>Tên</ThemedText>
+                  <ThemedText style={[styles.profileInfoValueList, {color: colorScheme === 'dark' ? '#fff' : '#333'}]} numberOfLines={1} ellipsizeMode='tail'>{user?.username}</ThemedText>
                 </View>
-                <View style={styles.profileInfoListItem}>
+                <View style={[styles.profileInfoListItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff',}]}>
                   <IconSymbol name="envelope.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} />
-                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color: "#000"},]}>Email</ThemedText>
-                  <ThemedText style={styles.profileInfoValueList} numberOfLines={1} ellipsizeMode='tail'>{user?.email || 'Chưa cập nhật email'}</ThemedText>
+                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color:  colorScheme === 'dark' ? '#fff' : '#333'},]}>Email</ThemedText>
+                  <ThemedText style={[styles.profileInfoValueList, {color: colorScheme === 'dark' ? '#fff' : '#333'}]} numberOfLines={1} ellipsizeMode='tail'>{user?.email || 'Chưa cập nhật email'}</ThemedText>
                 </View>
-                <View style={styles.profileInfoListItem}>
+                <View style={[styles.profileInfoListItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff',}]}>
                   <IconSymbol name="creditcard.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} />
-                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color: "#000"},]}>Số dư</ThemedText>
-                  <ThemedText style={styles.profileInfoValueList}>{user?.balance || '0.00'}</ThemedText>
+                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color:  colorScheme === 'dark' ? '#fff' : '#333'},]}>Số dư</ThemedText>
+                  <ThemedText style={[styles.profileInfoValueList, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>{user?.balance || '0.00'}</ThemedText>
                 </View>
-                <View style={styles.profileInfoListItem}>
+                <View style={[styles.profileInfoListItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff',}]}>
                   <IconSymbol name="bolt.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} />
-                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color: "#000"},]}>Tốc độ</ThemedText>
-                  <ThemedText style={styles.profileInfoValueList}>{user?.miningRate || '0'}/giờ</ThemedText>
+                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color:  colorScheme === 'dark' ? '#fff' : '#333'},]}>Tốc độ</ThemedText>
+                  <ThemedText style={[styles.profileInfoValueList, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>{user?.miningRate || '0'}/giờ</ThemedText>
                 </View>
-                <View style={styles.profileInfoListItem}>
+                <View style={[styles.profileInfoListItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff',}]}>
                   <IconSymbol name="person.2.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} />
-                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color: "#000"},]}>Mã mời</ThemedText>
+                  <ThemedText style={[styles.profileInfoLabelList, {fontWeight: 'bold'}, {  color:  colorScheme === 'dark' ? '#fff' : '#333'},]}>Mã mời</ThemedText>
                   <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                    <ThemedText style={[styles.profileInfoValueList, { flex: 1 }]} numberOfLines={1} ellipsizeMode='tail'>{user?.referralCode || 'N/A'}</ThemedText>
+                    <ThemedText style={[[styles.profileInfoValueList, {color: colorScheme === 'dark' ? '#fff' : '#333'}], { flex: 1 }]} numberOfLines={1} ellipsizeMode='tail'>{user?.referralCode || 'N/A'}</ThemedText>
                     {user?.referralCode && (
                       <TouchableOpacity onPress={async () => {
                         if (user.referralCode) {
@@ -513,77 +513,77 @@ export default function HomeScreen() {
           )}
 
           {/* Card Dịch vụ trong hệ sinh thái Cobic */}
-          <ThemedView style={styles.ecosystemCard}>
+          <ThemedView style={[styles.ecosystemCard, {backgroundColor: colorScheme === 'dark' ? '#4C0099' : '#fff'}]}>
             <View style={styles.ecosystemHeaderRow}>
-              <ThemedText type="title" style={[styles.sectionTitle, { color: "#000"}]}>Dịch vụ trong hệ sinh thái Cobic</ThemedText>
+              <ThemedText type="title" style={[styles.sectionTitle, {color: colorScheme === 'dark' ? '#fff' : '#333'}]}>Dịch vụ trong hệ sinh thái Cobic</ThemedText>
             </View>
             <View style={styles.ecosystemGrid}>
-              <View style={styles.ecosystemItem}>
+              <View style={[styles.ecosystemItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                 <IconSymbol name="cup.and.saucer.fill" size={28} color={Colors[colorScheme ?? 'light'].tint} />
-                <ThemedText style={[styles.ecosystemLabel, {color:"#000"}]}>Cà phê</ThemedText>
+                <ThemedText style={[styles.ecosystemLabel, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>Cà phê</ThemedText>
                 <ThemedText style={styles.ecosystemStatusActive}>Đang hoạt động</ThemedText>
               </View>
-              <View style={styles.ecosystemItem}>
+              <View style={[styles.ecosystemItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                 <IconSymbol name="snowflake" size={28} color={Colors[colorScheme ?? 'light'].tint} />
-                <ThemedText style={[styles.ecosystemLabel, {color:"#000"}]}>Kem</ThemedText>
+                <ThemedText style={[styles.ecosystemLabel, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>Kem</ThemedText>
                 <ThemedText style={styles.ecosystemStatusDev}>Đang phát triển</ThemedText>
               </View>
-              <View style={styles.ecosystemItem}>
+              <View style={[styles.ecosystemItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                 <IconSymbol name="leaf.fill" size={28} color={Colors[colorScheme ?? 'light'].tint} />
-                <ThemedText style={[styles.ecosystemLabel, {color:"#000"}]}>Trà sữa</ThemedText>
+                <ThemedText style={[styles.ecosystemLabel, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>Trà sữa</ThemedText>
                 <ThemedText style={styles.ecosystemStatusDev}>Đang phát triển</ThemedText>
               </View>
-              <View style={styles.ecosystemItem}>
+              <View style={[styles.ecosystemItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                 <IconSymbol name="cart.fill" size={28} color={Colors[colorScheme ?? 'light'].tint} />
-                <ThemedText style={[styles.ecosystemLabel, {color:"#000"}]}>Dịch vụ khác</ThemedText>
+                <ThemedText style={[styles.ecosystemLabel, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>Dịch vụ khác</ThemedText>
                 <ThemedText style={styles.ecosystemStatusDev}>Đang phát triển</ThemedText>
               </View>
             </View>
           </ThemedView>
 
           {/* Card Quick Stats đồng bộ style */}
-          <ThemedView style={styles.quickStatsCard}>
+          <ThemedView style={[styles.quickStatsCard, {backgroundColor: colorScheme === 'dark' ? '#4C0099' : '#fff'}]}>
             <View style={styles.quickStatsRow}>
               <View style={styles.quickStatsItem}>
                 <IconSymbol name="chart.line.uptrend.xyaxis" size={28} color={Colors[colorScheme ?? 'light'].tint} />
-                <ThemedText style={[styles.quickStatsLabel, {fontWeight: 'bold'} , {color:"#000"}]}>Tổng đã đào</ThemedText>
-                <ThemedText style={styles.quickStatsValue}>{user?.totalMined || '0'} COBIC</ThemedText>
+                <ThemedText style={[styles.quickStatsLabel, {fontWeight: 'bold'} , {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>Tổng đã đào</ThemedText>
+                <ThemedText style={[styles.quickStatsValue, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>{user?.totalMined || '0'} COBIC</ThemedText>
               </View>
               <View style={styles.quickStatsItem}>
                 <IconSymbol name="gift.fill" size={28} color={Colors[colorScheme ?? 'light'].tint} />
-                <ThemedText style={[styles.quickStatsLabel, {fontWeight: 'bold'} , {color:"#000"}]}>Hệ số thưởng</ThemedText>
-                <ThemedText style={styles.quickStatsValue}>{user?.bonusFactor || '1.0'}x</ThemedText>
+                <ThemedText style={[styles.quickStatsLabel, {fontWeight: 'bold'} , {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>Hệ số thưởng</ThemedText>
+                <ThemedText style={[styles.quickStatsValue, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>{user?.bonusFactor || '1.0'}x</ThemedText>
               </View>
             </View>
           </ThemedView>
 
           {/* Card Thống kê hệ thống full màn hình, chỉ 3 trường chính */}
-          <ThemedView style={styles.systemStatsCard}>
+          <ThemedView style={[styles.systemStatsCard, {backgroundColor: colorScheme === 'dark' ? '#4C0099' : '#fff'}]}>
             <View style={styles.systemStatsHeaderRow}>
-              <ThemedText type="title" style={[styles.sectionTitle, {color:"#000"}]}>Thống kê hệ thống</ThemedText>
+              <ThemedText type="title" style={[styles.sectionTitle, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>Thống kê hệ thống</ThemedText>
             </View>
             {statsLoading ? (
               <ThemedText style={styles.loadingText}>Đang tải thống kê...</ThemedText>
             ) : systemStats ? (
               <View style={styles.systemStatsList}>
-                <View style={styles.systemStatsListItem}>
+                <View style={[styles.systemStatsListItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                   <IconSymbol name="chart.line.uptrend.xyaxis" size={18} color={Colors[colorScheme ?? 'light'].tint} />
-                  <ThemedText style={[styles.systemStatsLabel, {fontWeight: 'bold'} ,{  color: "#000"}]}>Tốc độ đào cơ bản</ThemedText>
-                  <ThemedText style={styles.systemStatsValue}>
+                  <ThemedText style={[styles.systemStatsLabel, {fontWeight: 'bold'} ,{  color:  colorScheme === 'dark' ? '#fff' : '#333'}]}>Tốc độ đào cơ bản</ThemedText>
+                  <ThemedText style={[styles.systemStatsValue, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>
                     {systemStats.globalMiningRate === 'string' ? 'Đang cập nhật' : `${systemStats.globalMiningRate} COBIC/giờ`}
                   </ThemedText>
                 </View>
-                <View style={styles.systemStatsListItem}>
+                <View style={[styles.systemStatsListItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                   <IconSymbol name="gift.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} />
-                  <ThemedText style={[styles.systemStatsLabel, {fontWeight: 'bold'} ,{  color: "#000"}]}>Hệ số phân rã</ThemedText>
-                  <ThemedText style={styles.systemStatsValue}>
+                  <ThemedText style={[styles.systemStatsLabel, {fontWeight: 'bold'} ,{  color:  colorScheme === 'dark' ? '#fff' : '#333'}]}>Hệ số phân rã</ThemedText>
+                  <ThemedText style={[styles.systemStatsValue, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>
                     {systemStats.decayFactor === 'string' ? 'Đang cập nhật' : systemStats.decayFactor}
                   </ThemedText>
                 </View>
-                <View style={styles.systemStatsListItem}>
+                <View style={[styles.systemStatsListItem, {backgroundColor: colorScheme === 'dark' ? '#600EBD' : '#fff'}]}>
                   <IconSymbol name="person.3.fill" size={18} color={Colors[colorScheme ?? 'light'].tint} />
-                  <ThemedText style={[styles.systemStatsLabel, {fontWeight: 'bold'} ,{  color: "#000"}]}>Tổng số người dùng</ThemedText>
-                  <ThemedText style={styles.systemStatsValue}>
+                  <ThemedText style={[styles.systemStatsLabel, {fontWeight: 'bold'} ,{  color:  colorScheme === 'dark' ? '#fff' : '#333'}]}>Tổng số người dùng</ThemedText>
+                  <ThemedText style={[styles.systemStatsValue, {color: colorScheme === 'dark' ? '#fff' : '#000'}]}>
                     {systemStats.userCount}
                   </ThemedText>
                 </View>

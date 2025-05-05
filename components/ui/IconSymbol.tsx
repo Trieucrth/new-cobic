@@ -35,7 +35,7 @@ const NAME_MAPPING = {
   'person.crop.circle.badge.plus': 'person-add',
   'checkmark.shield.fill': 'verified-user',
   'doc.text.fill': 'history',
-  'person.badge.shield.checkmark.fill': 'contact-page',
+  'person.badge.shield.checkmark.fill': 'shield',
   'person.circle.fill': 'account-circle',
 } as const;
 

@@ -1,12 +1,14 @@
-import { StyleSheet, View, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import Svg, { Circle, Path } from 'react-native-svg';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { router } from 'expo-router';
 import { authService } from '@/services/auth.service';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import * as Haptics from 'expo-haptics';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
 const Logo = ({ color }: { color: string }) => (
   <Svg width={80} height={80} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -23,24 +25,54 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{
+    username?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
+
+  const validateForm = useCallback(() => {
+    const newErrors: typeof errors = {};
+    
+    if (!username.trim()) {
+      newErrors.username = 'Vui lòng nhập tên đăng nhập';
+    }
+    
+    if (!email.trim()) {
+      newErrors.email = 'Vui lòng nhập email';
+    } else if (!email.includes('@')) {
+      newErrors.email = 'Email không hợp lệ';
+    }
+    
+    if (!password) {
+      newErrors.password = 'Vui lòng nhập mật khẩu';
+    } else if (password.length < 6) {
+      newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
+    }
+    
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = 'Mật khẩu không khớp';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }, [username, email, password, confirmPassword]);
 
   const handleRegister = async () => {
-    if (!username || !email || !password || !confirmPassword) {
-      Alert.alert('Lỗi', 'Vui lòng nhập đầy đủ thông tin');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert('Lỗi', 'Mật khẩu không khớp');
+    if (!validateForm()) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       return;
     }
 
     try {
       setLoading(true);
       await authService.register(username, email, password);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       Alert.alert('Thành công', 'Đăng ký thành công! Vui lòng đăng nhập');
       router.replace('/login');
     } catch (error: any) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert('Lỗi', error.response?.data?.message || 'Đăng ký thất bại');
     } finally {
       setLoading(false);
@@ -52,7 +84,6 @@ export default function RegisterScreen() {
   const textColor = Colors[colorScheme ?? 'light'].text;
   const inputBackgroundColor = Colors[colorScheme ?? 'light'].inputBackground;
   const backgroundColor = Colors[colorScheme ?? 'light'].background;
-  const disabledButtonBackgroundColor = colorScheme === 'dark' ? '#252728' : '#EDE9FE';
 
   return (
     <KeyboardAvoidingView 
@@ -60,68 +91,124 @@ export default function RegisterScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ThemedView style={styles.content}>
-        <View style={styles.logoContainer}>
+        <Animated.View 
+          entering={FadeIn.duration(500)} 
+          style={styles.logoContainer}
+        >
           <Logo color={tintColor}/>
           <ThemedText type="title" style={[styles.title, { color: tintColor }]}>Cobic</ThemedText>
           <ThemedText style={[styles.subtitle, { color: iconColor }]}>Hệ Thống Quản Lý Chuỗi Cà Phê</ThemedText>
-        </View>
+        </Animated.View>
 
-        <View style={styles.formContainer}>
+        <Animated.View 
+          entering={FadeIn.delay(300).duration(500)} 
+          style={styles.formContainer}
+        >
           <View style={styles.inputContainer}>
             <ThemedText style={[styles.label, { color: iconColor }]}>Tên đăng nhập</ThemedText>
             <TextInput
-              style={[styles.input, { backgroundColor: inputBackgroundColor, color: textColor, borderColor: iconColor + '40' }]}
+              style={[
+                styles.input, 
+                { backgroundColor: inputBackgroundColor, color: textColor, borderColor: iconColor + '40' },
+                errors.username && styles.inputError
+              ]}
               placeholder="Nhập tên đăng nhập"
               placeholderTextColor={iconColor}
               value={username}
-              onChangeText={setUsername}
+              onChangeText={(text) => {
+                setUsername(text);
+                setErrors(prev => ({ ...prev, username: undefined }));
+              }}
               autoCapitalize="none"
               editable={!loading}
             />
+            {errors.username && (
+              <ThemedText style={styles.errorText}>{errors.username}</ThemedText>
+            )}
           </View>
 
           <View style={styles.inputContainer}>
             <ThemedText style={[styles.label, { color: iconColor }]}>Email</ThemedText>
             <TextInput
-              style={[styles.input, { backgroundColor: inputBackgroundColor, color: textColor, borderColor: iconColor + '40' }]}
+              style={[
+                styles.input, 
+                { backgroundColor: inputBackgroundColor, color: textColor, borderColor: iconColor + '40' },
+                errors.email && styles.inputError
+              ]}
               placeholder="Nhập email của bạn"
               placeholderTextColor={iconColor}
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(text) => {
+                setEmail(text);
+                setErrors(prev => ({ ...prev, email: undefined }));
+              }}
               keyboardType="email-address"
               autoCapitalize="none"
               editable={!loading}
             />
+            {errors.email && (
+              <ThemedText style={styles.errorText}>{errors.email}</ThemedText>
+            )}
           </View>
 
           <View style={styles.inputContainer}>
             <ThemedText style={[styles.label, { color: iconColor }]}>Mật khẩu</ThemedText>
             <TextInput
-              style={[styles.input, { backgroundColor: inputBackgroundColor, color: textColor, borderColor: iconColor + '40' }]}
+              style={[
+                styles.input, 
+                { backgroundColor: inputBackgroundColor, color: textColor, borderColor: iconColor + '40' },
+                errors.password && styles.inputError
+              ]}
               placeholder="Nhập mật khẩu"
               placeholderTextColor={iconColor}
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(text) => {
+                setPassword(text);
+                setErrors(prev => ({ ...prev, password: undefined }));
+              }}
               secureTextEntry
               editable={!loading}
+              autoComplete="off"
+              textContentType="none"
+              autoCapitalize="none"
             />
+            {errors.password && (
+              <ThemedText style={styles.errorText}>{errors.password}</ThemedText>
+            )}
           </View>
 
           <View style={styles.inputContainer}>
             <ThemedText style={[styles.label, { color: iconColor }]}>Xác nhận mật khẩu</ThemedText>
             <TextInput
-              style={[styles.input, { backgroundColor: inputBackgroundColor, color: textColor, borderColor: iconColor + '40' }]}
+              style={[
+                styles.input, 
+                { backgroundColor: inputBackgroundColor, color: textColor, borderColor: iconColor + '40' },
+                errors.confirmPassword && styles.inputError
+              ]}
               placeholder="Nhập lại mật khẩu"
               placeholderTextColor={iconColor}
               value={confirmPassword}
-              onChangeText={setConfirmPassword}
+              onChangeText={(text) => {
+                setConfirmPassword(text);
+                setErrors(prev => ({ ...prev, confirmPassword: undefined }));
+              }}
               secureTextEntry
               editable={!loading}
+              autoComplete="off"
+              textContentType="none"
+              autoCapitalize="none"
             />
+            {errors.confirmPassword && (
+              <ThemedText style={styles.errorText}>{errors.confirmPassword}</ThemedText>
+            )}
           </View>
 
           <TouchableOpacity 
-            style={[styles.registerButton, { backgroundColor: tintColor }, (!username || !email || !password || !confirmPassword || loading) && [styles.registerButtonDisabled, {backgroundColor: disabledButtonBackgroundColor }]]}
+            style={[
+              styles.registerButton, 
+              { backgroundColor: tintColor },
+              (!username || !email || !password || !confirmPassword || loading) && styles.registerButtonDisabled
+            ]}
             onPress={handleRegister}
             disabled={!username || !email || !password || !confirmPassword || loading}
           >
@@ -129,14 +216,23 @@ export default function RegisterScreen() {
               {loading ? 'Đang đăng ký...' : 'Đăng Ký'}
             </ThemedText>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
 
-        <View style={styles.footer}>
+        <Animated.View 
+          entering={FadeIn.delay(600).duration(500)} 
+          style={styles.footer}
+        >
           <ThemedText style={[styles.footerText, { color: iconColor }]}>Đã có tài khoản? </ThemedText>
           <TouchableOpacity onPress={() => router.replace('/login')}>
             <ThemedText style={[styles.footerLink, { color: tintColor }]}>Đăng nhập ngay</ThemedText>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
+
+        {loading && (
+          <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color={tintColor} />
+          </View>
+        )}
       </ThemedView>
     </KeyboardAvoidingView>
   );
@@ -183,6 +279,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: '100%',
   },
+  inputError: {
+    borderColor: '#EF4444',
+  },
+  errorText: {
+    color: '#EF4444',
+    fontSize: 12,
+    marginTop: 4,
+  },
   registerButton: {
     borderRadius: 12,
     padding: 16,
@@ -191,6 +295,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   registerButtonDisabled: {
+    opacity: 0.5,
   },
   registerButtonText: {
     color: '#fff',
@@ -209,5 +314,16 @@ const styles = StyleSheet.create({
   footerLink: {
     fontSize: 14,
     fontWeight: '600',
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
   },
 }); 

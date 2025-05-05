@@ -436,8 +436,8 @@ export default function KYCScreen() {
     return (
       <View style={styles.statusContainer}>
         <IconSymbol name="clock" size={60} color={Colors[colorScheme ?? 'light'].tint} />
-        <Text style={styles.statusTitle}>Đang chờ duyệt</Text>
-        <Text style={styles.statusMessage}>
+        <Text style={[styles.statusTitle, {color: Colors[colorScheme ?? 'light'].text}]}>Đang chờ duyệt</Text>
+        <Text style={[styles.statusMessage, {color: Colors[colorScheme ?? 'light'].text}]}>
           Thông tin KYC của bạn đã được gửi và đang chờ được phê duyệt. 
           Quá trình này có thể mất từ 1-3 ngày làm việc.
         </Text>
@@ -633,7 +633,7 @@ export default function KYCScreen() {
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      <ScrollView style={[styles.container, {backgroundColor: colorScheme === 'dark' ? '#360265' : '#fff'}]}>
         <LoadingOverlay visible={loading} />
         
         {renderContent()}
