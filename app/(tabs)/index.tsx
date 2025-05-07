@@ -22,6 +22,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { StatusBar } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { qrService } from '@/services/qr.service';
+import { Audio } from 'expo-av';
 
 // Định nghĩa kiểu dữ liệu cho stats
 interface SystemStats {
@@ -1064,6 +1065,27 @@ function QRScannerModal({ onSuccess, onClose }: { onSuccess: () => void, onClose
   const [loading, setLoading] = useState(false);
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
+  const [sound, setSound] = useState<Audio.Sound>();
+
+  async function playSound(success: boolean) {
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require('@/assets/sounds/notification/pristine-609.mp3')
+      );
+      setSound(sound);
+      await sound.playAsync();
+    } catch (error) {
+      console.error('Error playing sound:', error);
+    }
+  }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   const handleBarCodeScanned = async ({ data }: { data: string }) => {
     if (scanned || loading) return;
@@ -1077,10 +1099,12 @@ function QRScannerModal({ onSuccess, onClose }: { onSuccess: () => void, onClose
       if (!response || !response.message) {
         throw new Error('Phản hồi không hợp lệ từ máy chủ');
       }
+      await playSound(true);
       Alert.alert('Thành công', response.message, [
         { text: 'OK', onPress: onSuccess }
       ]);
     } catch (error: any) {
+      await playSound(false);
       if (error.message === 'Mã QR không hợp lệ') {
         Alert.alert('Lỗi', 'Mã QR không hợp lệ. Vui lòng thử lại với mã QR khác.');
       } else if (error.response) {

@@ -510,7 +510,7 @@ export default function KYCScreen() {
   const renderKYCForm = () => {
     return (
       <View style={styles.form}>
-        <Text style={styles.label}>Họ và tên</Text>
+        <Text style={[styles.label, {color: Colors[colorScheme ?? 'dark'].text}]}>Họ và tên</Text>
         <TextInput
           style={styles.input}
           value={formData.fullName}
@@ -518,11 +518,11 @@ export default function KYCScreen() {
           placeholder="Nhập họ và tên"
         />
 
-        <Text style={styles.label}>Ngày sinh</Text>
+        <Text style={[styles.label, {color: Colors[colorScheme ?? 'dark'].text}]}>Ngày sinh</Text>
         <TouchableOpacity
           style={styles.input}
           onPress={openDatePicker}>
-          <Text>{format(selectedDate, 'dd/MM/yyyy', { locale: vi })}</Text>
+          <Text style={{color: Colors[colorScheme ?? 'dark'].text}}>{format(selectedDate, 'dd/MM/yyyy', { locale: vi })}</Text>
         </TouchableOpacity>
 
         {showDatePicker && Platform.OS === 'android' && (
@@ -535,7 +535,7 @@ export default function KYCScreen() {
           />
         )}
 
-        <Text style={styles.label}>Địa chỉ</Text>
+        <Text style={[styles.label, {color: Colors[colorScheme ?? 'dark'].text}]}>Địa chỉ</Text>
         <TextInput
           style={styles.input}
           value={formData.address}
@@ -543,7 +543,7 @@ export default function KYCScreen() {
           placeholder="Nhập địa chỉ"
         />
 
-        <Text style={styles.label}>Số CMND/CCCD</Text>
+        <Text style={[styles.label, {color: Colors[colorScheme ?? 'dark'].text}]}>Số CMND/CCCD</Text>
         <TextInput
           style={styles.input}
           value={formData.identityNumber}
@@ -552,36 +552,36 @@ export default function KYCScreen() {
           keyboardType="numeric"
         />
 
-        <Text style={styles.label}>Mặt trước CMND/CCCD</Text>
+        <Text style={[styles.label, {color: Colors[colorScheme ?? 'dark'].text}]}>Mặt trước CMND/CCCD</Text>
         {formData.idCardFrontImage ? 
           renderImagePreview(formData.idCardFrontImage, 'front') :
           <TouchableOpacity
             style={[styles.uploadButton, { borderColor: '#ddd' }]}
             onPress={() => setShowCamera('front')}>
             <IconSymbol name="camera.fill" size={20} color={Colors[colorScheme ?? 'light'].text} />
-            <Text style={styles.uploadButtonText}>Tải lên mặt trước CMND/CCCD</Text>
+            <Text style={[styles.uploadButtonText, {color: Colors[colorScheme ?? 'light'].text}]}>Tải lên mặt trước CMND/CCCD</Text>
           </TouchableOpacity>
         }
 
-        <Text style={styles.label}>Mặt sau CMND/CCCD</Text>
+        <Text style={[styles.label, {color: Colors[colorScheme ?? 'dark'].text}]}>Mặt sau CMND/CCCD</Text>
         {formData.idCardBackImage ? 
           renderImagePreview(formData.idCardBackImage, 'back') :
           <TouchableOpacity
             style={[styles.uploadButton, { borderColor: '#ddd' }]}
             onPress={() => setShowCamera('back')}>
             <IconSymbol name="camera.fill" size={20} color={Colors[colorScheme ?? 'light'].text} />
-            <Text style={styles.uploadButtonText}>Tải lên mặt sau CMND/CCCD</Text>
+            <Text style={[styles.uploadButtonText, {color: Colors[colorScheme ?? 'light'].text}]}>Tải lên mặt sau CMND/CCCD</Text>
           </TouchableOpacity>
         }
 
-        <Text style={styles.label}>Ảnh chân dung với CMND/CCCD</Text>
+        <Text style={[styles.label, {color: Colors[colorScheme ?? 'dark'].text}]}>Ảnh chân dung với CMND/CCCD</Text>
         {formData.selfieWithIdCard ? 
           renderImagePreview(formData.selfieWithIdCard, 'selfie') :
           <TouchableOpacity
             style={[styles.uploadButton, { borderColor: '#ddd' }]}
             onPress={() => setShowCamera('selfie')}>
             <IconSymbol name="camera.fill" size={20} color={Colors[colorScheme ?? 'light'].text} />
-            <Text style={styles.uploadButtonText}>Tải lên ảnh chân dung kèm CMND/CCCD</Text>
+            <Text style={[styles.uploadButtonText, {color: Colors[colorScheme ?? 'light'].text}]}>Tải lên ảnh chân dung kèm CMND/CCCD</Text>
           </TouchableOpacity>
         }
 

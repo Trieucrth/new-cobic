@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Alert, ActivityIndicator, StatusBar } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Alert, ActivityIndicator, StatusBar, Dimensions } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -10,6 +10,10 @@ import { useAuth } from '@/contexts/AuthContext';
 import { router } from 'expo-router';
 import { qrService } from '@/services/qr.service';
 import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const FRAME_SIZE = 250;
+const FRAME_PADDING = 20;
 
 export default function ScanReceiptScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -26,8 +30,32 @@ export default function ScanReceiptScreen() {
     }
   }, [permission]);
 
-  const handleBarCodeScanned = async ({ data }: { data: string }) => {
+  const handleBarCodeScanned = async ({ data, bounds }: { data: string, bounds: { origin: { x: number, y: number }, size: { width: number, height: number } } }) => {
     if (scanned || loading) return;
+
+    // Tính toán vị trí của khung quét
+    const frameLeft = (SCREEN_WIDTH - FRAME_SIZE) / 2;
+    const frameRight = frameLeft + FRAME_SIZE;
+    const frameTop = (SCREEN_WIDTH - FRAME_SIZE) / 2;
+    const frameBottom = frameTop + FRAME_SIZE;
+
+    // Tính toán vị trí của mã QR
+    const qrLeft = bounds.origin.x;
+    const qrRight = bounds.origin.x + bounds.size.width;
+    const qrTop = bounds.origin.y;
+    const qrBottom = bounds.origin.y + bounds.size.height;
+
+    // Kiểm tra xem mã QR có nằm trong khung không
+    const isQRInFrame = 
+      qrLeft >= (frameLeft + FRAME_PADDING) && 
+      qrRight <= (frameRight - FRAME_PADDING) && 
+      qrTop >= (frameTop + FRAME_PADDING) && 
+      qrBottom <= (frameBottom - FRAME_PADDING);
+
+    if (!isQRInFrame) {
+      return; // Bỏ qua nếu mã QR không nằm trong khung
+    }
+
     setScanned(true);
     setLoading(true);
 
@@ -141,7 +169,7 @@ export default function ScanReceiptScreen() {
               setTimeout(() => router.navigate('/(tabs)'), 100);
             }}
           >
-            <IconSymbol name="xmark" size={24} color={Colors[colorScheme ?? 'light'].text} />
+            <IconSymbol name="close" size={24} color={Colors[colorScheme ?? 'light'].text} />
           </TouchableOpacity>
         </View>
       </View>
@@ -179,8 +207,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   scanFrame: {
-    width: 250,
-    height: 250,
+    width: FRAME_SIZE,
+    height: FRAME_SIZE,
     borderWidth: 2,
     borderColor: '#fff',
     position: 'relative',
@@ -253,13 +281,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: '#fff',
   },
-  errorText: {
-    textAlign: 'center',
-    padding: 20,
-    fontSize: 16,
-    color: '#EF4444',
-    marginBottom: 20,
-  },
   retryButton: {
     backgroundColor: Colors.light.tint,
     paddingHorizontal: 20,
@@ -268,7 +289,6 @@ const styles = StyleSheet.create({
   },
   retryButtonText: {
     color: '#fff',
-    fontSize: 16,
     fontWeight: '600',
   },
 });

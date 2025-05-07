@@ -6,7 +6,7 @@ import { getToken } from './token.handler';
 import { PUBLIC_ENDPOINTS } from './api.endpoints';
 
 // Lấy API URL từ cấu hình
-const API_URL = 'https://cobic.io/api';
+const API_URL = 'https://app.cobic.io/api';
 const ENVIRONMENT = 'production';
 
 // Tạo instance Axios tập trung
