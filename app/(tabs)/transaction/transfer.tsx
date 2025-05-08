@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/ThemedText';
@@ -7,6 +7,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import { transactionService, TransferPayload } from '@/services/transaction.service';
+import { Audio } from 'expo-av';
 
 export default function TransferScreen() {
   const colorScheme = useColorScheme();
@@ -14,15 +15,38 @@ export default function TransferScreen() {
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
+
+  const playSound = async (isSuccess: boolean) => {
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require('@/assets/sounds/transfer/pristine-609.mp3')
+      );
+      setSound(sound);
+      await sound.playAsync();
+    } catch (error) {
+      console.error('Error playing sound:', error);
+    }
+  };
 
   const handleTransfer = async () => {
     if (!recipientUsername.trim() || !amount.trim()) {
+      await playSound(false);
       Alert.alert('Lỗi', 'Vui lòng nhập Tên người nhận và Số lượng COBIC');
       return;
     }
 
     const numericAmount = parseFloat(amount);
     if (isNaN(numericAmount) || numericAmount <= 0) {
+      await playSound(false);
       Alert.alert('Lỗi', 'Số lượng COBIC không hợp lệ');
       return;
     }
@@ -38,6 +62,7 @@ export default function TransferScreen() {
       const result = await transactionService.transferCobic(payload);
       
       if (result.success) {
+        await playSound(true);
         Alert.alert(
           'Thành công',
           `Bạn đã chuyển ${result.transaction.amount} COBIC cho ${recipientUsername} thành công.\nSố dư mới: ${result.newBalance} COBIC`,
@@ -48,10 +73,11 @@ export default function TransferScreen() {
           }}]
         );
       } else {
+        await playSound(false);
         Alert.alert('Lỗi', 'Giao dịch không thành công.');
       }
-
     } catch (error: any) {
+      await playSound(false);
       console.error('Error transferring COBIC:', error);
       
       if (error.response) {

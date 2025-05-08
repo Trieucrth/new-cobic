@@ -23,6 +23,7 @@ import { StatusBar } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { qrService } from '@/services/qr.service';
 import { Audio } from 'expo-av';
+import { notificationService } from '@/services/notification.service';
 
 // Định nghĩa kiểu dữ liệu cho stats
 interface SystemStats {
@@ -159,6 +160,12 @@ export default function HomeScreen() {
         return;
       }
       setMiningStatus(status);
+      
+      // Lưu thời gian điểm danh tiếp theo và lên lịch thông báo
+      if (status?.nextMiningTime) {
+        await AsyncStorage.setItem('nextCheckInTime', status.nextMiningTime);
+        await notificationService.scheduleDailyCheckInNotification();
+      }
     } catch (error: any) {
       console.error('Error fetching mining status:', error);
       if (error.response && error.response.status === 401) {
@@ -265,6 +272,7 @@ export default function HomeScreen() {
 
   const handleLogout = async () => {
     try {
+      await notificationService.cancelAllNotifications();
       await logout();
     } catch (error) {
       Alert.alert('Lỗi', 'Đăng xuất thất bại. Vui lòng thử lại.');

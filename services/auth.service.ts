@@ -1,6 +1,7 @@
 import api from './api.client'; // Import API client đã cấu hình
 import axios from 'axios';
 import { authHandler } from './auth.handler';
+import { setToken } from './token.handler';
 
 // Tạo instance API public không có token và không có interceptor
 const publicApi = axios.create({
@@ -18,15 +19,18 @@ const authService = {
   login: async (username: string, password: string) => {
     try {
       console.log('Attempting login with:', { username, password });
-      const response = await api.post('/auth/login', {
+      const response = await publicApi.post('/auth/login', {
         username,
         password
       });
       console.log('Login response:', response.data);
       
-      if (!response.data.token) {
+      if (!response.data || !response.data.token) {
         throw new Error('No token in response');
       }
+      
+      // Lưu token ngay sau khi nhận được
+      await setToken(response.data.token);
       
       return {
         token: response.data.token,
@@ -48,8 +52,16 @@ const authService = {
   register: async (username: string, email: string, password: string) => {
     try {
       console.log('Attempting register with:', { username, email });
-      const response = await api.post('/auth/register', { username, email, password });
+      const response = await publicApi.post('/auth/register', { username, email, password });
       console.log('Register response:', response.data);
+      
+      if (!response.data || !response.data.token) {
+        throw new Error('No token in response');
+      }
+      
+      // Lưu token ngay sau khi nhận được
+      await setToken(response.data.token);
+      
       return response.data;
     } catch (error: any) {
       console.error('Register error:', error.response?.data || error);
@@ -83,8 +95,16 @@ const authService = {
 
   guestRegister: async () => {
     try {
-      const response = await api.post('/auth/guest-register');
+      const response = await publicApi.post('/auth/guest-register');
       console.log('Guest register full response:', JSON.stringify(response.data, null, 2));
+      
+      if (!response.data || !response.data.token) {
+        throw new Error('No token in response');
+      }
+      
+      // Lưu token ngay sau khi nhận được
+      await setToken(response.data.token);
+      
       return response.data;
     } catch (error) {
       console.error('Guest register error:', error);
@@ -113,15 +133,7 @@ const authService = {
   forgotPassword: async (email: string) => {
     try {
       console.log('Attempting forgot password with:', { email });
-      // Tạo request config không có token
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        skipAuth: true, // Thêm flag để interceptor biết bỏ qua việc thêm token
-      };
-      
-      const response = await api.post('/auth/forgot-password', { email }, config);
+      const response = await publicApi.post('/auth/forgot-password', { email });
       console.log('Forgot password response:', response.data);
       return response.data;
     } catch (error: any) {
