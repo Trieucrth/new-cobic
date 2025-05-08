@@ -5,15 +5,48 @@ import { setToken } from './token.handler';
 
 // Tạo instance API public không có token và không có interceptor
 const publicApi = axios.create({
-  baseURL: 'https://api.cobic.vn', // Hardcode baseURL để test
+  baseURL: 'https://app.cobic.io/api', // Sử dụng cùng baseURL với api client chính
   headers: {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive'
   },
+  timeout: 60000,
+  validateStatus: function (status) {
+    return status >= 200 && status < 500;
+  }
 });
 
 // Xóa interceptor mặc định
 publicApi.interceptors.request.clear();
 publicApi.interceptors.response.clear();
+
+// Thêm interceptor để log lỗi
+publicApi.interceptors.response.use(
+  (response) => {
+    console.log('Public API Response:', {
+      url: response.config.url,
+      method: response.config.method,
+      status: response.status,
+      headers: response.headers
+    });
+    return response;
+  },
+  (error) => {
+    console.error('Public API Error:', {
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      message: error.message,
+      code: error.code,
+      response: error.response?.data,
+      headers: error.config?.headers,
+      baseURL: error.config?.baseURL
+    });
+    return Promise.reject(error);
+  }
+);
 
 const authService = {
   login: async (username: string, password: string) => {
