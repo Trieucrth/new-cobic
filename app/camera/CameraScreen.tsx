@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { RefreshCw, X } from 'react-native-feather';
 
 type CameraScreenProps = {
   onCapture: (photo: any) => void;
@@ -52,7 +52,7 @@ export default function CameraScreen({ onCapture }: CameraScreenProps) {
             onPress={() => {
               setType(type === 'back' ? 'front' : 'back');
             }}>
-            <Ionicons name="camera-reverse" size={30} color="white" />
+            <RefreshCw width={30} height={30} color="white" />
           </TouchableOpacity>
           
           <TouchableOpacity
@@ -64,7 +64,7 @@ export default function CameraScreen({ onCapture }: CameraScreenProps) {
           <TouchableOpacity
             style={styles.closeButton}
             onPress={() => router.back()}>
-            <Ionicons name="close" size={30} color="white" />
+            <X width={30} height={30} color="white" />
           </TouchableOpacity>
         </View>
       </CameraView>

@@ -1,25 +1,12 @@
 import api from './api.client'; // Import API client đã cấu hình
-import axios from 'axios';
 import { authHandler } from './auth.handler';
 import { setToken } from './token.handler';
-
-// Tạo instance API public không có token và không có interceptor
-const publicApi = axios.create({
-  baseURL: 'https://api.cobic.vn', // Hardcode baseURL để test
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Xóa interceptor mặc định
-publicApi.interceptors.request.clear();
-publicApi.interceptors.response.clear();
 
 const authService = {
   login: async (username: string, password: string) => {
     try {
       console.log('Attempting login with:', { username, password });
-      const response = await publicApi.post('/auth/login', {
+      const response = await api.post('/auth/login', {
         username,
         password
       });
@@ -52,7 +39,7 @@ const authService = {
   register: async (username: string, email: string, password: string) => {
     try {
       console.log('Attempting register with:', { username, email });
-      const response = await publicApi.post('/auth/register', { username, email, password });
+      const response = await api.post('/auth/register', { username, email, password });
       console.log('Register response:', response.data);
       
       if (!response.data || !response.data.token) {
@@ -95,7 +82,7 @@ const authService = {
 
   guestRegister: async () => {
     try {
-      const response = await publicApi.post('/auth/guest-register');
+      const response = await api.post('/auth/guest-register');
       console.log('Guest register full response:', JSON.stringify(response.data, null, 2));
       
       if (!response.data || !response.data.token) {
@@ -133,7 +120,7 @@ const authService = {
   forgotPassword: async (email: string) => {
     try {
       console.log('Attempting forgot password with:', { email });
-      const response = await publicApi.post('/auth/forgot-password', { email });
+      const response = await api.post('/auth/forgot-password', { email });
       console.log('Forgot password response:', response.data);
       return response.data;
     } catch (error: any) {

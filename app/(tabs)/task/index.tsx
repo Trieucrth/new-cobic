@@ -5,7 +5,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
+import { RefreshCw, Activity, TrendingUp, User, Clock, Calendar, BarChart2, AlertCircle } from 'react-native-feather';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { taskService, Task, CompleteTaskResponse } from '@/services/task.service';
@@ -181,11 +181,7 @@ export default function TaskScreen() {
                   onPress={() => setSelectedType(type as any)}
                 >
                   <View style={styles.filterIconContainer}>
-                    <Ionicons 
-                      name={getTypeIcon(type)} 
-                      size={20} 
-                      color={selectedType === type ? '#fff' : Colors[colorScheme ?? 'light'].tint} 
-                    />
+                    <RefreshCw width={24} height={24} color={selectedType === type ? '#fff' : Colors[colorScheme ?? 'light'].tint} />
                   </View>
                   <ThemedText lightColor={Colors.light.text} darkColor={Colors.light.text}
                     style={[
@@ -210,11 +206,7 @@ export default function TaskScreen() {
                   <View style={styles.taskHeader}>
                     <View style={styles.taskType}>
                       <View style={styles.taskTypeIconContainer}>
-                        <Ionicons 
-                          name={getTypeIcon(task.type)} 
-                          size={24} 
-                          color={Colors[colorScheme ?? 'light'].tint} 
-                        />
+                        <Activity width={24} height={24} color={Colors[colorScheme ?? 'light'].tint} />
                       </View>
                       <ThemedText style={styles.taskTypeText}>
                         {getTypeName(task.type)}
@@ -222,12 +214,12 @@ export default function TaskScreen() {
                     </View>
                     {task.completed ? (
                       <View style={styles.completedBadge}>
-                        <Ionicons name="checkmark-circle" size={18} color="#4CAF50" />
+                        <AlertCircle width={18} height={18} color="#4CAF50" />
                         <ThemedText style={styles.completedText}>Đã hoàn thành</ThemedText>
                       </View>
                     ) : (
                       <View style={styles.pendingBadge}>
-                        <Ionicons name="time" size={18} color="#FF9800" />
+                        <Clock width={18} height={18} color="#FF9800" />
                         <ThemedText style={styles.pendingText}>Đang chờ</ThemedText>
                       </View>
                     )}
@@ -239,7 +231,7 @@ export default function TaskScreen() {
                   <View style={styles.taskInfo}>
                     <View style={styles.infoRow}>
                       <View style={styles.infoIconContainer}>
-                        <Ionicons name="gift" size={20} color={Colors[colorScheme ?? 'light'].tint} />
+                        <AlertCircle width={20} height={20} color={Colors[colorScheme ?? 'light'].tint} />
                       </View>
                       <ThemedText style={styles.infoText}>
                         <ThemedText style={styles.infoLabel}>Phần thưởng: </ThemedText>
@@ -248,7 +240,7 @@ export default function TaskScreen() {
                     </View>
                     <View style={styles.infoRow}>
                       <View style={styles.infoIconContainer}>
-                        <Ionicons name="time" size={20} color={Colors[colorScheme ?? 'light'].tint} />
+                        <Clock width={24} height={24} color={Colors[colorScheme ?? 'light'].tint} />
                       </View>
                       <ThemedText style={styles.infoText}>
                         <ThemedText style={styles.infoLabel}>Thời gian: </ThemedText>
@@ -258,7 +250,7 @@ export default function TaskScreen() {
                     {task.requirements && (
                       <View style={styles.infoRow}>
                         <View style={styles.infoIconContainer}>
-                          <Ionicons name="list" size={20} color={Colors[colorScheme ?? 'light'].tint} />
+                          <AlertCircle width={20} height={20} color={Colors[colorScheme ?? 'light'].tint} />
                         </View>
                         <ThemedText style={styles.infoText}>
                           <ThemedText style={styles.infoLabel}>Yêu cầu: </ThemedText>
@@ -274,7 +266,7 @@ export default function TaskScreen() {
                         onPress={() => handleCompleteTask(task.id)}
                       >
                         <View style={styles.completeButtonContent}>
-                          <Ionicons name="checkmark-circle" size={20} color="#fff" />
+                          <AlertCircle width={16} height={16} color="#fff" />
                           <ThemedText style={styles.completeButtonText}>Hoàn thành</ThemedText>
                         </View>
                       </TouchableOpacity>
@@ -285,7 +277,7 @@ export default function TaskScreen() {
             ) : (
               <View style={styles.emptyContainer}>
                 <View style={styles.emptyIconContainer}>
-                  <Ionicons name="alert-circle" size={64} color={Colors[colorScheme ?? 'light'].tint} />
+                  <AlertCircle width={48} height={48} color={Colors[colorScheme ?? 'light'].tint} />
                 </View>
                 <ThemedText style={styles.emptyText}>Không có nhiệm vụ nào</ThemedText>
                 <ThemedText style={styles.emptySubtext}>Hãy quay lại sau để xem các nhiệm vụ mới</ThemedText>

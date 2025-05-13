@@ -5,7 +5,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Ionicons } from '@expo/vector-icons';
+import { User, Activity, FileText, Send } from 'react-native-feather';
 import { transactionService, TransferPayload } from '@/services/transaction.service';
 import { Audio } from 'expo-av';
 
@@ -133,7 +133,7 @@ export default function TransferScreen() {
         <ThemedView style={[ styles.form, {backgroundColor: colorScheme === 'dark' ? '#4C0099' : '#fff',}]}>
           <View style={styles.inputContainer}>
             <View style={styles.inputIconContainer}>
-              <Ionicons name="person-outline" size={20} color={Colors[colorScheme ?? 'light'].tint} />
+              <User width={20} height={20} color={Colors[colorScheme ?? 'light'].tint} />
             </View>
             <TextInput
               style={[styles.input, { color: colorScheme === 'dark' ? '#000000' : '#000000',}]}
@@ -147,7 +147,7 @@ export default function TransferScreen() {
 
           <View style={styles.inputContainer}>
             <View style={styles.inputIconContainer}>
-              <Ionicons name="cash-outline" size={20} color={Colors[colorScheme ?? 'light'].tint} />
+              <Activity width={20} height={20} color={Colors[colorScheme ?? 'light'].tint} />
             </View>
             <TextInput
               style={[styles.input, { color: colorScheme === 'dark' ? '#000000' : '#000000',}]}
@@ -161,7 +161,7 @@ export default function TransferScreen() {
 
           <View style={styles.inputContainer}>
             <View style={styles.inputIconContainer}>
-              <Ionicons name="document-text-outline" size={20} color={Colors[colorScheme ?? 'light'].tint} />
+              <FileText width={20} height={20} color={Colors[colorScheme ?? 'light'].tint} />
             </View>
             <TextInput
               style={[styles.input, { color: colorScheme === 'dark' ? '#000000' : '#000000',}]}
@@ -181,7 +181,7 @@ export default function TransferScreen() {
               <ActivityIndicator size="small" color="#fff" />
             ) : (
               <View style={styles.transferButtonContent}>
-                <Ionicons name="send-outline" size={20} color="#fff" />
+                <Send width={20} height={20} color="#fff" />
                 <ThemedText style={styles.transferButtonText}>Chuyển COBIC</ThemedText>
               </View>
             )}

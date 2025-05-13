@@ -1,8 +1,10 @@
 // IconSymbol.tsx
 import React from 'react';
 import { Platform, StyleProp, TextStyle } from 'react-native';
-import { Symbol as SFSymbol, SymbolWeight } from 'expo-symbols';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import {
+  ShieldCheckIcon, HomeIcon, UserIcon, EnvelopeIcon, CreditCardIcon, LockClosedIcon, StarIcon, CheckCircleIcon, QrCodeIcon, GiftIcon, UsersIcon, BoltIcon, ShoppingCartIcon, ChartBarIcon, DocumentDuplicateIcon, ClockIcon, PlusCircleIcon, CakeIcon, SparklesIcon, UserPlusIcon
+} from 'react-native-heroicons/solid';
+import type { ViewStyle } from 'react-native';
 
 const NAME_MAPPING = {
   'house.fill': 'home',
@@ -46,8 +48,31 @@ interface IconSymbolProps {
   size?: number;
   color: string;
   style?: StyleProp<TextStyle>;
-  weight?: SymbolWeight;
+  weight?: 'regular' | 'bold';
 }
+
+const ICON_MAP: Record<string, any> = {
+  'home': HomeIcon,
+  'person': UserIcon,
+  'envelope': EnvelopeIcon,
+  'credit-card': CreditCardIcon,
+  'lock': LockClosedIcon,
+  'star': StarIcon,
+  'verified-user': CheckCircleIcon,
+  'qr-code-scanner': QrCodeIcon,
+  'card-giftcard': GiftIcon,
+  'people': UsersIcon,
+  'bolt': BoltIcon,
+  'shopping-cart': ShoppingCartIcon,
+  'trending-up': ChartBarIcon,
+  'content-copy': DocumentDuplicateIcon,
+  'history': ClockIcon,
+  'person-add': UserPlusIcon,
+  'local-cafe': CakeIcon,
+  'snowflake': SparklesIcon,
+  'energy-savings-leaf': SparklesIcon,
+  // ... thêm các icon khác nếu cần
+};
 
 export function IconSymbol({
   name,
@@ -56,27 +81,17 @@ export function IconSymbol({
   style,
   weight = 'regular',
 }: IconSymbolProps) {
-  // On iOS use the native SF Symbol; everywhere else use MaterialIcons.
-  if (Platform.OS === 'ios') {
+  // Fallback cho biểu tượng KYC
+  if (name === 'person.badge.shield.checkmark.fill') {
     return (
-      <SFSymbol
-        name={name}
-        size={size}
-        weight={weight}
-        color={color}
-        style={style}
-      />
+      <ShieldCheckIcon width={size} height={size} color={color} style={style as ViewStyle} />
     );
   }
 
-  // Look up the Material icon name, or fall back to a placeholder.
-  const materialName = NAME_MAPPING[name] ?? 'help-outline';
+  // Map tên icon sang component heroicons
+  const materialName = NAME_MAPPING[name] ?? 'home';
+  const IconComponent = ICON_MAP[materialName] || HomeIcon;
   return (
-    <MaterialIcons
-      name={materialName}
-      size={size}
-      color={color}
-      style={style}
-    />
+    <IconComponent width={size} height={size} color={color} style={[{ width: size, height: size }, style]} />
   );
 }

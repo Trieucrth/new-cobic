@@ -52,7 +52,8 @@ api.interceptors.request.use(async (config) => {
     // Chỉ kiểm tra token cho các endpoint protected
     const token = await getToken();
     if (!token) {
-      throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+      // Trả về lỗi đặc biệt để UI tự xử lý, không hiện popup
+      return Promise.reject({ code: 'NO_TOKEN' });
     }
     
     config.headers.Authorization = `Bearer ${token}`;

@@ -5,7 +5,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Ionicons } from '@expo/vector-icons';
+import { ChevronRight } from 'react-native-feather';
 import { router } from 'expo-router';
 
 export default function TransactionScreen() {
@@ -56,10 +56,10 @@ export default function TransactionScreen() {
           >
             <ThemedView style={[styles.menuItemContent, dynamicStyles.menuItemContent]}>
               <View style={[styles.menuItemIconContainer, { backgroundColor: item.color + '15' }]}>
-                <Ionicons 
-                  name={item.icon as any} 
-                  size={24} 
-                  color={item.color} 
+                <ChevronRight 
+                  width={24}
+                  height={24}
+                  color={item.color}
                 />
               </View>
               <View style={styles.menuItemInfo}>
@@ -67,10 +67,10 @@ export default function TransactionScreen() {
                 <ThemedText style={styles.menuItemDescription}>{item.description}</ThemedText>
               </View>
               <View style={styles.menuItemArrowContainer}>
-                <Ionicons 
-                  name="chevron-forward" 
-                  size={20} 
-                  style={dynamicStyles.arrowIcon}
+                <ChevronRight 
+                  width={20}
+                  height={20}
+                  color={Colors[colorScheme ?? 'light'].text + '80'}
                 />
               </View>
             </ThemedView>

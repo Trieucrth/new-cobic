@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '@/contexts/AuthContext';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Ionicons } from '@expo/vector-icons';
+import { User, Check, Copy, Share, X } from 'react-native-feather';
 import { authService } from '@/services/auth.service';
 import { userService } from '@/services/user.service';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

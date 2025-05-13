@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@constants/Colors';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import { Ionicons } from '@expo/vector-icons';
+import { RefreshCw, Activity, TrendingUp, User, Clock, Calendar, BarChart2, AlertCircle } from 'react-native-feather';
 import React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { userService } from '@services/user.service';
@@ -21,7 +21,7 @@ export default function MiningScreen() {
   const [checkInResult, setCheckInResult] = useState<DailyCheckInResult | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [hasFetchedWhenZero, setHasFetchedWhenZero] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout>();
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     fetchMiningData();
@@ -255,16 +255,16 @@ export default function MiningScreen() {
       >
         {loading ? (
           <View style={styles.loadingContainer}>
-            <Ionicons name="reload" size={24} color={Colors[colorScheme ?? 'light'].tint} />
+            <RefreshCw width={24} height={24} color={Colors[colorScheme ?? 'light'].tint} />
             <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.loadingText}>Đang tải...</ThemedText>
           </View>
         ) : miningStatus ? (
           <>
             <ThemedView style={styles.statusCard}>
               <View style={styles.statusHeader}>
-                <Ionicons 
-                  name={miningStatus.canMine ? "flash" : "time"} 
-                  size={24} 
+                <Activity 
+                  width={24} 
+                  height={24} 
                   color={miningStatus.canMine ? "#4CAF50" : "#FF9800"} 
                 />
                 <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.statusTitle}>
@@ -281,27 +281,27 @@ export default function MiningScreen() {
 
             <ThemedView style={styles.infoCard}>
               <View style={styles.infoHeader}>
-                <Ionicons name="speedometer" size={24} color={Colors[colorScheme ?? 'light'].tint} />
+                <Activity width={24} color={Colors[colorScheme ?? 'light'].tint} />
                 <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoTitle}>Thông tin Mining</ThemedText>
               </View>
               <View style={styles.infoContent}>
                 <View style={styles.infoRow}>
                   <View style={styles.infoLabel}>
-                    <Ionicons name="rocket" size={16} color={Colors[colorScheme ?? 'light'].text} />
+                    <TrendingUp width={16} height={16} color={Colors[colorScheme ?? 'light'].text} />
                     <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoLabelText}>Tốc độ mining</ThemedText>
                   </View>
                   <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoValue}>{miningStatus.miningRate}</ThemedText>
                 </View>
                 <View style={styles.infoRow}>
                   <View style={styles.infoLabel}>
-                    <Ionicons name="analytics" size={16} color={Colors[colorScheme ?? 'light'].text} />
+                    <BarChart2 width={16} color={Colors[colorScheme ?? 'light'].text} />
                     <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoLabelText}>Tốc độ cơ bản</ThemedText>
                   </View>
                   <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoValue}>{miningStatus.baseMiningRate}</ThemedText>
                 </View>
                 <View style={styles.infoRow}>
                   <View style={styles.infoLabel}>
-                    <Ionicons name="person" size={16} color={Colors[colorScheme ?? 'light'].text} />
+                    <User width={16} color={Colors[colorScheme ?? 'light'].text} />
                     <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoLabelText}>Tốc độ của bạn</ThemedText>
                   </View>
                   <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.infoValue}>{miningStatus.userMiningRate}</ThemedText>
@@ -311,27 +311,27 @@ export default function MiningScreen() {
 
             <ThemedView style={styles.timeCard}>
               <View style={styles.timeHeader}>
-                <Ionicons name="time" size={24} color={Colors[colorScheme ?? 'light'].tint} />
+                <Clock width={24} color={Colors[colorScheme ?? 'light'].tint} />
                 <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeTitle}>Thời gian</ThemedText>
               </View>
               <View style={styles.timeContent}>
                 <View style={styles.timeRow}>
                   <View style={styles.timeLabel}>
-                    <Ionicons name="calendar" size={16} color={Colors[colorScheme ?? 'light'].text} />
+                    <Calendar width={16} color={Colors[colorScheme ?? 'light'].text} />
                     <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeLabelText}>Lần mining cuối</ThemedText>
                   </View>
                   <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeValue}>{formatTime(miningStatus.lastMiningTime)}</ThemedText>
                 </View>
                 <View style={styles.timeRow}>
                   <View style={styles.timeLabel}>
-                    <Ionicons name="timer" size={16} color={Colors[colorScheme ?? 'light'].text} />
+                    <Clock width={16} color={Colors[colorScheme ?? 'light'].text} />
                     <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeLabelText}>Lần mining tiếp theo</ThemedText>
                   </View>
                   <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeValue}>{timeLeft || formatTime(miningStatus.nextMiningTime)}</ThemedText>
                 </View>
                 <View style={styles.timeRow}>
                   <View style={styles.timeLabel}>
-                    <Ionicons name="hourglass" size={16} color={Colors[colorScheme ?? 'light'].text} />
+                    <Activity width={16} color={Colors[colorScheme ?? 'light'].text} />
                     <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeLabelText}>Thời gian chờ</ThemedText>
                   </View>
                   <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.timeValue}>{miningStatus.cooldownHours} giờ</ThemedText>
@@ -355,9 +355,9 @@ export default function MiningScreen() {
               onPress={handleMine}
             >
               <View style={styles.mineButtonContent}>
-                <Ionicons 
-                  name={miningStatus.canMine ? "flash" : "time"} 
-                  size={24} 
+                <Activity 
+                  width={24} 
+                  height={24} 
                   color="#fff" 
                   style={styles.mineButtonIcon}
                 />
@@ -380,9 +380,9 @@ export default function MiningScreen() {
               onPress={handleCheckIn}
             >
               <View style={styles.checkInButtonContent}>
-                <Ionicons 
-                  name="calendar" 
-                  size={24} 
+                <Calendar 
+                  width={24} 
+                  height={24} 
                   color="#fff" 
                   style={styles.checkInButtonIcon}
                 />
@@ -396,7 +396,7 @@ export default function MiningScreen() {
           </>
         ) : (
           <View style={styles.emptyContainer}>
-            <Ionicons name="alert-circle" size={48} color={Colors[colorScheme ?? 'light'].text} />
+            <AlertCircle width={48} height={48} color={Colors[colorScheme ?? 'light'].text} />
             <ThemedText lightColor = {Colors.light.text} darkColor = {Colors.light.text} style={styles.emptyText}>Không có dữ liệu</ThemedText>
           </View>
         )}

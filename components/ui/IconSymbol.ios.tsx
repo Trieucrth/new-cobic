@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { ShieldCheckIcon, HomeIcon, UserIcon, EnvelopeIcon, CreditCardIcon, LockClosedIcon, StarIcon, CheckCircleIcon, QrCodeIcon, GiftIcon, UsersIcon, BoltIcon, ShoppingCartIcon, ChartBarIcon, DocumentDuplicateIcon, ClockIcon, PlusCircleIcon, CakeIcon, SparklesIcon, UserPlusIcon } from 'react-native-heroicons/solid';
 import type { StyleProp, ViewStyle } from 'react-native';
 
 export function IconSymbol({
@@ -18,23 +18,37 @@ export function IconSymbol({
   // Fallback cho biểu tượng KYC
   if (name === 'person.badge.shield.checkmark.fill') {
     return (
-      <Ionicons
-        name="shield-checkmark"
-        size={size}
-        color={color}
-        style={style}
-      />
+      <ShieldCheckIcon width={size} height={size} color={color} style={style} />
     );
   }
 
-  // Chuyển đổi SF Symbol sang Ionicons
-  const iconName = name.replace(/\./g, '-');
+  // Map tên icon sang component heroicons
+  const ICON_MAP: Record<string, any> = {
+    'home': HomeIcon,
+    'person': UserIcon,
+    'envelope': EnvelopeIcon,
+    'credit-card': CreditCardIcon,
+    'lock': LockClosedIcon,
+    'star': StarIcon,
+    'verified-user': CheckCircleIcon,
+    'qr-code-scanner': QrCodeIcon,
+    'card-giftcard': GiftIcon,
+    'people': UsersIcon,
+    'bolt': BoltIcon,
+    'shopping-cart': ShoppingCartIcon,
+    'trending-up': ChartBarIcon,
+    'content-copy': DocumentDuplicateIcon,
+    'history': ClockIcon,
+    'person-add': UserPlusIcon,
+    'local-cafe': CakeIcon,
+    'snowflake': SparklesIcon,
+    'energy-savings-leaf': SparklesIcon,
+    // ... thêm các icon khác nếu cần
+  };
+
+  const materialName = name.replace(/\./g, '-');
+  const IconComponent = ICON_MAP[materialName] || HomeIcon;
   return (
-    <Ionicons
-      name={iconName as any}
-      size={size}
-      color={color}
-      style={[{ width: size, height: size }, style]}
-    />
+    <IconComponent width={size} height={size} color={color} style={[{ width: size, height: size }, style]} />
   );
 }

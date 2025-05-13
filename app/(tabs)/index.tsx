@@ -1171,7 +1171,7 @@ function QRScannerModal({ onSuccess, onClose }: { onSuccess: () => void, onClose
         </View>
         <View style={{ position: 'absolute', bottom: 40 + insets.bottom, left: 0, right: 0, alignItems: 'center' }}>
           <TouchableOpacity style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: 'rgba(255,255,255,0.2)', justifyContent: 'center', alignItems: 'center' }} onPress={onClose}>
-            <IconSymbol name="xmark" size={24} color={Colors[colorScheme ?? 'light'].text} />
+            <IconSymbol name="chevron.right" size={24} color={Colors[colorScheme ?? 'light'].text} />
           </TouchableOpacity>
         </View>
       </CameraView>
